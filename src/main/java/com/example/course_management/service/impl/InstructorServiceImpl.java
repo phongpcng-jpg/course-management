@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.course_management.dto.instructor.InstructorDetail;
 import com.example.course_management.model.Instructor;
 import com.example.course_management.repository.InstructorRepository;
+import com.example.course_management.service.IInstructorDetailService;
 import com.example.course_management.service.IInstructorService;
 
 
@@ -14,10 +16,18 @@ import com.example.course_management.service.IInstructorService;
 public class InstructorServiceImpl implements IInstructorService{
 
     private final InstructorRepository instructorRepository;
+    private final IInstructorDetailService instructorDetailService;
 
     @Autowired
-    public InstructorServiceImpl(InstructorRepository instructorRepository) {
+    public InstructorServiceImpl(
+        InstructorRepository instructorRepository,
+        IInstructorDetailService instructorDetailService
+    ) {
+
         this.instructorRepository = instructorRepository;
+
+        this.instructorDetailService = instructorDetailService;
+
     }
 
     @Override
@@ -58,6 +68,24 @@ public class InstructorServiceImpl implements IInstructorService{
                         "Instructor not found."
                     )
                 );
+    }
+
+    @Override
+    public List<InstructorDetail> getAllInstructorDetail() {
+        return instructorRepository.findAll().stream()
+                .map(
+                    instructor -> InstructorDetail
+                        .builder()
+                        .id(instructor.getId())
+                        .name(instructor.getName())
+                        .email(instructor.getEmail())
+                        .courseSummaries(
+                            instructorDetailService
+                                .getSummaryOfAllActivateCoursesAndHaveAtLeastOneEnrollmentByInstructorId(
+                                    instructor.getId()
+                                )
+                        ).build()
+                ).toList();
     }
 
 }

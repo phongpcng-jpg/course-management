@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.course_management.dto.instructor.InstructorDetail;
 import com.example.course_management.model.Instructor;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.service.IInstructorService;
@@ -39,6 +40,21 @@ public class InstructorController {
                 true,
                 "Get all instructors successfully.",
                 instructors
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<ApiResponse<List<InstructorDetail>>> getAllInstructorDetail() {
+
+        List<InstructorDetail> instructorDetails = instructorService.getAllInstructorDetail();
+
+        ApiResponse<List<InstructorDetail>> response = new ApiResponse<>(
+                true,
+                "Get all instructor details successfully.",
+                instructorDetails
         );
 
         return ResponseEntity.ok(response);
