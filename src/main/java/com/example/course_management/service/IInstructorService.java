@@ -2,6 +2,7 @@ package com.example.course_management.service;
 
 import java.util.List;
 
+import com.example.course_management.dto.instructor.InstructorDetail;
 import com.example.course_management.model.Instructor;
 
 public interface IInstructorService {
@@ -15,5 +16,7 @@ public interface IInstructorService {
     Instructor updateInstructor(Long id, Instructor instructor);
 
     Instructor deleteInstructorById(Long id);
+
+    List<InstructorDetail> getAllInstructorDetail();
 
 }
