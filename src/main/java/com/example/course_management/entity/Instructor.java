@@ -3,8 +3,6 @@ package com.example.course_management.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.course_management.model.Course;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
