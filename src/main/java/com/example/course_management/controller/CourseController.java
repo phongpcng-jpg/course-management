@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.course_management.entity.Course;
+import com.example.course_management.dto.course.CourseRequest;
+import com.example.course_management.dto.course.CourseResponse;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.service.ICourseService;
 
@@ -31,14 +32,14 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Course>>> getAllCourse() {
+    public ResponseEntity<ApiResponse<List<CourseResponse>>> getAllCourse() {
 
-        List<Course> courses = courseService.getAllCourses();
+        List<CourseResponse> courseResponses = courseService.getAllCourses();
 
-        ApiResponse<List<Course>> response = new ApiResponse<>(
+        ApiResponse<List<CourseResponse>> response = new ApiResponse<>(
                 true,
                 "Get all courses successfully.",
-                courses
+                courseResponses
         );
 
         return ResponseEntity.ok(response);
@@ -46,7 +47,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> getCourse(
+    public ResponseEntity<ApiResponse<CourseResponse>> getCourse(
             @PathVariable("id") Long id) {
 
         try {
@@ -71,8 +72,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Course>> createCourse(
-            @RequestBody Course course) {
+    public ResponseEntity<ApiResponse<CourseResponse>> createCourse(
+            @RequestBody CourseRequest courseRequest) {
 
         try {
             return ResponseEntity
@@ -80,7 +81,7 @@ public class CourseController {
                     .body(new ApiResponse<>(
                             true,
                             "Course created successfully.",
-                            courseService.createCourse(course)
+                            courseService.createCourse(courseRequest)
                     ));
         } catch (RuntimeException e) {
             return ResponseEntity
@@ -95,16 +96,16 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> updateCourse(
+    public ResponseEntity<ApiResponse<CourseResponse>> updateCourse(
             @PathVariable("id") Long id,
-            @RequestBody Course course) {
+            @RequestBody CourseRequest courseRequest) {
 
         try {
             return ResponseEntity.ok(
                     new ApiResponse<>(
                             true,
                             "Course updated successfully.",
-                            courseService.updateCourse(id, course)
+                            courseService.updateCourse(id, courseRequest)
                     )
             );
         } catch (RuntimeException e) {
@@ -120,7 +121,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> deleteCourse(
+    public ResponseEntity<ApiResponse<CourseResponse>> deleteCourse(
             @PathVariable("id") Long id) {
 
         try {

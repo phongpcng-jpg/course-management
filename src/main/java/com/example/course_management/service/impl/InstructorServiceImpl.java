@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
+import com.example.course_management.dto.instructor.InstructorRequest;
+import com.example.course_management.dto.instructor.InstructorResponse;
 import com.example.course_management.entity.Instructor;
 import com.example.course_management.repository.jpa.InstructorRepository;
 import com.example.course_management.service.IInstructorDetailService;
@@ -31,31 +33,55 @@ public class InstructorServiceImpl implements IInstructorService{
     }
 
     @Override
-    public List<Instructor> getAllInstructor() {
-        return instructorRepository.findAll();
+    public List<InstructorResponse> getAllInstructor() {
+        return instructorRepository.findAll().stream()
+                    .map(
+                        instructor -> InstructorResponse.builder()
+                                        .id(instructor.getId())
+                                        .name(instructor.getName())
+                                        .email(instructor.getEmail())
+                                        .build()
+                    ).toList();
     }
 
     @Override
-    public Instructor getInstructorById(Long id) {
-        return instructorRepository.findById(id)
+    public InstructorResponse getInstructorById(Long id) {
+
+        Instructor instructor = instructorRepository.findById(id)
                 .orElseThrow(
                     () -> new RuntimeException(
                         "Instructor not found."
                     )
                 );
+
+        return InstructorResponse.builder()
+                    .id(instructor.getId())
+                    .name(instructor.getName())
+                    .email(instructor.getEmail())
+                    .build();
     }
 
     @Override
-    public Instructor createInstructor(Instructor instructor) {
+    public InstructorResponse createInstructor(InstructorRequest instructorRequest) {
 
-        instructor.setId(null);
+        Instructor instructor = Instructor.builder()
+                                .id(null)
+                                .name(instructorRequest.getName())
+                                .email(instructorRequest.getEmail())
+                                .build();
 
-        return instructorRepository.save(instructor);
+        instructor = instructorRepository.save(instructor);
+
+        return InstructorResponse.builder()
+                    .id(instructor.getId())
+                    .name(instructor.getName())
+                    .email(instructor.getEmail())
+                    .build();
 
     }
 
     @Override
-    public Instructor updateInstructor(Long id, Instructor instructor) {
+    public InstructorResponse updateInstructor(Long id, InstructorRequest instructorRequest) {
 
         try {
             getInstructorById(id);
@@ -65,16 +91,26 @@ public class InstructorServiceImpl implements IInstructorService{
             );
         }
 
-        instructor.setId(id);
+        Instructor instructor = Instructor.builder()
+                                .id(id)
+                                .name(instructorRequest.getName())
+                                .email(instructorRequest.getEmail())
+                                .build();
 
-        return instructorRepository.save(instructor);
+        instructor = instructorRepository.save(instructor);
+
+        return InstructorResponse.builder()
+                    .id(instructor.getId())
+                    .name(instructor.getName())
+                    .email(instructor.getEmail())
+                    .build();
     }
 
     @Override
-    public Instructor deleteInstructorById(Long id) {
+    public InstructorResponse deleteInstructorById(Long id) {
 
         try {
-            Instructor exist = getInstructorById(id);
+            InstructorResponse exist = getInstructorById(id);
             instructorRepository.deleteById(id);
             return exist;
         } catch (RuntimeException e) {
