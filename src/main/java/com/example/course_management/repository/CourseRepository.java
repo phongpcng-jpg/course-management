@@ -11,8 +11,8 @@ import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.model.Course;
 
 
-@Repository
-@Profile("old")
+// @Repository
+// @Profile("old")
 public class CourseRepository {
 
     private final List<Course> courses = new ArrayList<>();

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.example.course_management.model.Instructor;
 
 
-@Repository
-@Profile("old")
+// @Repository
+// @Profile("old")
 public class InstructorRepository {
 
     private final List<Instructor> instructors = new ArrayList<>();

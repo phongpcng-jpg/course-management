@@ -3,6 +3,7 @@ package com.example.course_management.service.legacy.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.enrollment.EnrollCourseRequest;
@@ -16,7 +17,8 @@ import com.example.course_management.service.legacy.IEnrollmentService;
 import com.example.course_management.service.legacy.IInstructorService;
 
 
-@Service
+// @Service
+// @Profile("old")
 public class EnrollmentServiceImpl implements IEnrollmentService{
 
     private final EnrollmentRepository enrollmentRepository;
