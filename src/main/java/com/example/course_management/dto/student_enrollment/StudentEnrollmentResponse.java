@@ -17,6 +17,8 @@ import lombok.Setter;
 @Builder
 public class StudentEnrollmentResponse {
 
+    private Long id;
+
     private StudentResponse student;
 
     private CourseResponse course;
