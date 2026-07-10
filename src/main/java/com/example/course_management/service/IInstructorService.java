@@ -3,7 +3,7 @@ package com.example.course_management.service;
 import java.util.List;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.model.Instructor;
+import com.example.course_management.entity.Instructor;
 
 public interface IInstructorService {
     

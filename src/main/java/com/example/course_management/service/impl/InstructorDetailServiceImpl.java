@@ -9,32 +9,36 @@ import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.course.CourseSummary;
 import com.example.course_management.enums.CourseStatus;
-import com.example.course_management.repository.CourseRepository;
-import com.example.course_management.repository.EnrollmentRepository;
+import com.example.course_management.repository.jpa.CourseRepository;
+import com.example.course_management.repository.jpa.StudentEnrollmentRepository;
 import com.example.course_management.service.IInstructorDetailService;
 
 
 @Service
 public class InstructorDetailServiceImpl implements IInstructorDetailService{
 
-    private final EnrollmentRepository enrollmentRepository;
+    private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final CourseRepository courseRepository;
 
     @Autowired
     public InstructorDetailServiceImpl(
-        EnrollmentRepository enrollmentRepository,
+        StudentEnrollmentRepository studentEnrollmentRepository,
         CourseRepository courseRepository
     ) {
 
-        this.enrollmentRepository = enrollmentRepository;
+        this.studentEnrollmentRepository = studentEnrollmentRepository;
 
         this.courseRepository = courseRepository;
     }
 
     @Override
     public Set<Long> getValidCourseIds() {
-        return enrollmentRepository.findAll().stream()
-                    .map(enrollment -> enrollment.getCourseId())
+        return studentEnrollmentRepository.findAll().stream()
+                    .map(
+                        studentEnrollment -> studentEnrollment
+                                                .getCourse()
+                                                .getId()
+                    )
                     .collect(Collectors.toSet());
     }
 
@@ -44,7 +48,7 @@ public class InstructorDetailServiceImpl implements IInstructorDetailService{
         Set<Long> validCourseIds = getValidCourseIds();
 
         return courseRepository.findAll().stream()
-                .filter(course -> course.getInstructorId().equals(instructorId))
+                .filter(course -> course.getInstructor().getId().equals(instructorId))
                 .filter(course -> course.getStatus() == CourseStatus.ACTIVE)
                 .filter(course -> validCourseIds.contains(course.getId()))
                 .map(course -> CourseSummary

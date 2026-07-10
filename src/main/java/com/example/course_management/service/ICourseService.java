@@ -2,7 +2,7 @@ package com.example.course_management.service;
 
 import java.util.List;
 
-import com.example.course_management.model.Course;
+import com.example.course_management.entity.Course;
 
 public interface ICourseService {
 

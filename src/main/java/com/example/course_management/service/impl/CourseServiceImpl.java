@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.course_management.model.Course;
-import com.example.course_management.repository.CourseRepository;
+import com.example.course_management.entity.Course;
+import com.example.course_management.repository.jpa.CourseRepository;
 import com.example.course_management.service.ICourseService;
 import com.example.course_management.service.IInstructorService;
 
@@ -49,7 +49,7 @@ public class CourseServiceImpl implements ICourseService{
 
         try {
             instructorService.getInstructorById(
-                course.getInstructorId()
+                course.getInstructor().getId()
             );
         } catch (RuntimeException e) {
             throw new RuntimeException(
@@ -57,7 +57,9 @@ public class CourseServiceImpl implements ICourseService{
             );
         }
 
-        return courseRepository.create(course);
+        course.setId(null);
+
+        return courseRepository.save(course);
         
     }
 
@@ -66,7 +68,7 @@ public class CourseServiceImpl implements ICourseService{
         
         try {
             instructorService.getInstructorById(
-                course.getInstructorId()
+                course.getInstructor().getId()
             );
         } catch (RuntimeException e) {
             throw new RuntimeException(
@@ -74,23 +76,33 @@ public class CourseServiceImpl implements ICourseService{
             );
         }
 
-        return courseRepository.update(id, course)
-                .orElseThrow(
-                    () -> new RuntimeException(
-                        "Course not found."
-                    )
-                );
+        try {
+            getCourseById(id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(
+                "Course not found for update."
+            );
+        }
+
+        course.setId(id);
+
+        return courseRepository.save(course);
 
     }
 
     @Override
     public Course deleteCourseById(Long id) {
-        return courseRepository.deleteById(id)
-                .orElseThrow(
-                    () -> new RuntimeException(
-                        "Course not found."
-                    )
-                );
+
+        try {
+            Course exist = getCourseById(id);
+            courseRepository.deleteById(id);
+            return exist;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(
+                "Course not found for delete."
+            );
+        }
+
     }
 
 }

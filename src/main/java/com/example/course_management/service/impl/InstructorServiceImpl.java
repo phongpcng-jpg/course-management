@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.model.Instructor;
-import com.example.course_management.repository.InstructorRepository;
+import com.example.course_management.entity.Instructor;
+import com.example.course_management.repository.jpa.InstructorRepository;
 import com.example.course_management.service.IInstructorDetailService;
 import com.example.course_management.service.IInstructorService;
 
@@ -47,27 +47,42 @@ public class InstructorServiceImpl implements IInstructorService{
 
     @Override
     public Instructor createInstructor(Instructor instructor) {
-        return instructorRepository.create(instructor);
+
+        instructor.setId(null);
+
+        return instructorRepository.save(instructor);
+
     }
 
     @Override
     public Instructor updateInstructor(Long id, Instructor instructor) {
-        return instructorRepository.update(id, instructor)
-                .orElseThrow(
-                    () -> new RuntimeException(
-                        "Instructor not found."
-                    )
-                );
+
+        try {
+            getInstructorById(id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(
+                "Instructor not found for update."
+            );
+        }
+
+        instructor.setId(id);
+
+        return instructorRepository.save(instructor);
     }
 
     @Override
     public Instructor deleteInstructorById(Long id) {
-        return instructorRepository.deleteById(id)
-                .orElseThrow(
-                    () -> new RuntimeException(
-                        "Instructor not found."
-                    )
-                );
+
+        try {
+            Instructor exist = getInstructorById(id);
+            instructorRepository.deleteById(id);
+            return exist;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(
+                "Instructor not found for delete."
+            );
+        }
+
     }
 
     @Override

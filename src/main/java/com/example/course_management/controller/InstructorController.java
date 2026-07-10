@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.model.Instructor;
+import com.example.course_management.entity.Instructor;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.service.IInstructorService;
 
