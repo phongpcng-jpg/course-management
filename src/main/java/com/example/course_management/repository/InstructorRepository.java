@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.example.course_management.model.Instructor;
 
 
 @Repository
+@Profile("old")
 public class InstructorRepository {
 
     private final List<Instructor> instructors = new ArrayList<>();
