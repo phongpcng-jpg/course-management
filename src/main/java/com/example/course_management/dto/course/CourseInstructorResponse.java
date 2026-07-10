@@ -21,6 +21,6 @@ public class CourseInstructorResponse {
 
     private CourseStatus status;
 
-    private InstructorResponse instructorResponse;
+    private InstructorResponse instructor;
 
 }
