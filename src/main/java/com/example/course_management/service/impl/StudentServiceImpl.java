@@ -3,6 +3,7 @@ package com.example.course_management.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.student.StudentRequest;
 import com.example.course_management.dto.student.StudentResponse;
@@ -10,6 +11,8 @@ import com.example.course_management.entity.Student;
 import com.example.course_management.repository.jpa.StudentRepository;
 import com.example.course_management.service.IStudentService;
 
+
+@Service
 public class StudentServiceImpl implements IStudentService{
 
     private final StudentRepository studentRepository;
