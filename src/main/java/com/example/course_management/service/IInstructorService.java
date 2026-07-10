@@ -3,19 +3,20 @@ package com.example.course_management.service;
 import java.util.List;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
+import com.example.course_management.dto.instructor.InstructorRequest;
+import com.example.course_management.dto.instructor.InstructorResponse;
 
 public interface IInstructorService {
     
-    List<Instructor> getAllInstructor();
+    List<InstructorResponse> getAllInstructor();
 
-    Instructor getInstructorById(Long id);
+    InstructorResponse getInstructorById(Long id);
 
-    Instructor createInstructor(Instructor instructor);
+    InstructorResponse createInstructor(InstructorRequest instructorRequest);
 
-    Instructor updateInstructor(Long id, Instructor instructor);
+    InstructorResponse updateInstructor(Long id, InstructorRequest instructorRequest);
 
-    Instructor deleteInstructorById(Long id);
+    InstructorResponse deleteInstructorById(Long id);
 
     List<InstructorDetail> getAllInstructorDetail();
 

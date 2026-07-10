@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
+import com.example.course_management.dto.instructor.InstructorRequest;
+import com.example.course_management.dto.instructor.InstructorResponse;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.service.IInstructorService;
 
@@ -32,14 +33,14 @@ public class InstructorController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Instructor>>> getAllInstructor() {
+    public ResponseEntity<ApiResponse<List<InstructorResponse>>> getAllInstructor() {
 
-        List<Instructor> instructors = instructorService.getAllInstructor();
+        List<InstructorResponse> instructorResponses = instructorService.getAllInstructor();
 
-        ApiResponse<List<Instructor>> response = new ApiResponse<>(
+        ApiResponse<List<InstructorResponse>> response = new ApiResponse<>(
                 true,
                 "Get all instructors successfully.",
-                instructors
+                instructorResponses
         );
 
         return ResponseEntity.ok(response);
@@ -62,7 +63,7 @@ public class InstructorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> getInstructor(
+    public ResponseEntity<ApiResponse<InstructorResponse>> getInstructor(
             @PathVariable("id") Long id)  {
 
         try {
@@ -86,8 +87,8 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Instructor>> createInstructor(
-            @RequestBody Instructor instructor) {
+    public ResponseEntity<ApiResponse<InstructorResponse>> createInstructor(
+            @RequestBody InstructorRequest instructorRequest) {
 
         try {
             return ResponseEntity
@@ -95,7 +96,7 @@ public class InstructorController {
                     .body(new ApiResponse<>(
                             true,
                             "Instructor created successfully.",
-                            instructorService.createInstructor(instructor)
+                            instructorService.createInstructor(instructorRequest)
                     ));
         } catch (RuntimeException e) {
             return ResponseEntity
@@ -110,16 +111,16 @@ public class InstructorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(
+    public ResponseEntity<ApiResponse<InstructorResponse>> updateInstructor(
             @PathVariable("id") Long id,
-            @RequestBody Instructor instructor) {
+            @RequestBody InstructorRequest instructorRequest) {
 
         try {
             return ResponseEntity.ok(
                     new ApiResponse<>(
                             true,
                             "Instructor updated successfully.",
-                            instructorService.updateInstructor(id, instructor)
+                            instructorService.updateInstructor(id, instructorRequest)
                     )
             );
         } catch (RuntimeException e) {
@@ -135,7 +136,7 @@ public class InstructorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(
+    public ResponseEntity<ApiResponse<InstructorResponse>> deleteInstructor(
             @PathVariable("id") Long id) {
 
         try {

@@ -2,18 +2,19 @@ package com.example.course_management.service;
 
 import java.util.List;
 
-import com.example.course_management.entity.Course;
+import com.example.course_management.dto.course.CourseRequest;
+import com.example.course_management.dto.course.CourseResponse;
 
 public interface ICourseService {
 
-    List<Course> getAllCourses();
+    List<CourseResponse> getAllCourses();
 
-    Course getCourseById(Long id);
+    CourseResponse getCourseById(Long id);
 
-    Course createCourse(Course course);
+    CourseResponse createCourse(CourseRequest courseRequest);
 
-    Course updateCourse(Long id, Course course);
+    CourseResponse updateCourse(Long id, CourseRequest courseRequest);
 
-    Course deleteCourseById(Long id);
+    CourseResponse deleteCourseById(Long id);
 
 }
