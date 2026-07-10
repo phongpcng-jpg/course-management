@@ -1,4 +1,4 @@
-package com.example.course_management.service;
+package com.example.course_management.service.legacy;
 
 import java.util.List;
 

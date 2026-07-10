@@ -1,4 +1,4 @@
-package com.example.course_management.controller;
+package com.example.course_management.controller.legacy;
 
 import java.util.List;
 
@@ -14,47 +14,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
+import com.example.course_management.model.Course;
 import com.example.course_management.response.ApiResponse;
-import com.example.course_management.service.IInstructorService;
+import com.example.course_management.service.legacy.ICourseService;
 
 
-@RestController
-@RequestMapping("api/instructors")
-public class InstructorController {
+// @RestController
+// @RequestMapping("api/courses")
+public class CourseController {
 
-    private final IInstructorService instructorService;
+    private final ICourseService courseService;
 
     @Autowired
-    public InstructorController(IInstructorService instructorService) {
-        this.instructorService = instructorService;
+    public CourseController(ICourseService courseService) {
+        this.courseService = courseService;
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Instructor>>> getAllInstructor() {
+    public ResponseEntity<ApiResponse<List<Course>>> getAllCourse() {
 
-        List<Instructor> instructors = instructorService.getAllInstructor();
+        List<Course> courses = courseService.getAllCourses();
 
-        ApiResponse<List<Instructor>> response = new ApiResponse<>(
+        ApiResponse<List<Course>> response = new ApiResponse<>(
                 true,
-                "Get all instructors successfully.",
-                instructors
-        );
-
-        return ResponseEntity.ok(response);
-
-    }
-
-    @GetMapping("/details")
-    public ResponseEntity<ApiResponse<List<InstructorDetail>>> getAllInstructorDetail() {
-
-        List<InstructorDetail> instructorDetails = instructorService.getAllInstructorDetail();
-
-        ApiResponse<List<InstructorDetail>> response = new ApiResponse<>(
-                true,
-                "Get all instructor details successfully.",
-                instructorDetails
+                "Get all courses successfully.",
+                courses
         );
 
         return ResponseEntity.ok(response);
@@ -62,15 +46,16 @@ public class InstructorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> getInstructor(
-            @PathVariable("id") Long id)  {
+    public ResponseEntity<ApiResponse<Course>> getCourse(
+            @PathVariable("id") Long id) {
 
         try {
+
             return ResponseEntity.ok(
                     new ApiResponse<>(
                             true,
                             "Fetched successfully!",
-                            instructorService.getInstructorById(id)
+                            courseService.getCourseById(id)
                     )
             );
         } catch (RuntimeException e) {
@@ -86,16 +71,16 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Instructor>> createInstructor(
-            @RequestBody Instructor instructor) {
+    public ResponseEntity<ApiResponse<Course>> createCourse(
+            @RequestBody Course course) {
 
         try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(new ApiResponse<>(
                             true,
-                            "Instructor created successfully.",
-                            instructorService.createInstructor(instructor)
+                            "Course created successfully.",
+                            courseService.createCourse(course)
                     ));
         } catch (RuntimeException e) {
             return ResponseEntity
@@ -110,16 +95,16 @@ public class InstructorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(
+    public ResponseEntity<ApiResponse<Course>> updateCourse(
             @PathVariable("id") Long id,
-            @RequestBody Instructor instructor) {
+            @RequestBody Course course) {
 
         try {
             return ResponseEntity.ok(
                     new ApiResponse<>(
                             true,
-                            "Instructor updated successfully.",
-                            instructorService.updateInstructor(id, instructor)
+                            "Course updated successfully.",
+                            courseService.updateCourse(id, course)
                     )
             );
         } catch (RuntimeException e) {
@@ -135,15 +120,15 @@ public class InstructorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(
+    public ResponseEntity<ApiResponse<Course>> deleteCourse(
             @PathVariable("id") Long id) {
 
         try {
             return ResponseEntity.ok(
                     new ApiResponse<>(
                             true,
-                            "Instructor deleted successfully.",
-                            instructorService.deleteInstructorById(id)
+                            "Course deleted successfully.",
+                            courseService.deleteCourseById(id)
                     )
             );
         } catch (RuntimeException e) {

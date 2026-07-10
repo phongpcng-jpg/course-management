@@ -1,4 +1,4 @@
-package com.example.course_management.controller;
+package com.example.course_management.controller.legacy;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
+import com.example.course_management.model.Instructor;
 import com.example.course_management.response.ApiResponse;
-import com.example.course_management.service.IInstructorService;
+import com.example.course_management.service.legacy.IInstructorService;
 
 
-@RestController
-@RequestMapping("api/instructors")
+// @RestController
+// @RequestMapping("api/instructors")
 public class InstructorController {
 
     private final IInstructorService instructorService;

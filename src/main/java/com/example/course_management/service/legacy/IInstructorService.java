@@ -1,9 +1,9 @@
-package com.example.course_management.service;
+package com.example.course_management.service.legacy;
 
 import java.util.List;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
+import com.example.course_management.model.Instructor;
 
 public interface IInstructorService {
     

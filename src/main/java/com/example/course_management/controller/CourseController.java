@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.course_management.model.Course;
+import com.example.course_management.entity.Course;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.service.ICourseService;
 

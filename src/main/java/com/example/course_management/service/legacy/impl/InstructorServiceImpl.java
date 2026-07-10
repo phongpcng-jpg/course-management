@@ -1,18 +1,20 @@
-package com.example.course_management.service.impl;
+package com.example.course_management.service.legacy.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.instructor.InstructorDetail;
-import com.example.course_management.entity.Instructor;
-import com.example.course_management.repository.jpa.InstructorRepository;
-import com.example.course_management.service.IInstructorDetailService;
-import com.example.course_management.service.IInstructorService;
+import com.example.course_management.model.Instructor;
+import com.example.course_management.repository.InstructorRepository;
+import com.example.course_management.service.legacy.IInstructorDetailService;
+import com.example.course_management.service.legacy.IInstructorService;
 
 
-@Service
+// @Repository
+// @Profile("old")
 public class InstructorServiceImpl implements IInstructorService{
 
     private final InstructorRepository instructorRepository;
@@ -47,42 +49,27 @@ public class InstructorServiceImpl implements IInstructorService{
 
     @Override
     public Instructor createInstructor(Instructor instructor) {
-
-        instructor.setId(null);
-
-        return instructorRepository.save(instructor);
-
+        return instructorRepository.create(instructor);
     }
 
     @Override
     public Instructor updateInstructor(Long id, Instructor instructor) {
-
-        try {
-            getInstructorById(id);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(
-                "Instructor not found for update."
-            );
-        }
-
-        instructor.setId(id);
-
-        return instructorRepository.save(instructor);
+        return instructorRepository.update(id, instructor)
+                .orElseThrow(
+                    () -> new RuntimeException(
+                        "Instructor not found."
+                    )
+                );
     }
 
     @Override
     public Instructor deleteInstructorById(Long id) {
-
-        try {
-            Instructor exist = getInstructorById(id);
-            instructorRepository.deleteById(id);
-            return exist;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(
-                "Instructor not found for delete."
-            );
-        }
-
+        return instructorRepository.deleteById(id)
+                .orElseThrow(
+                    () -> new RuntimeException(
+                        "Instructor not found."
+                    )
+                );
     }
 
     @Override

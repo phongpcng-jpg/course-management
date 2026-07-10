@@ -1,4 +1,4 @@
-package com.example.course_management.controller;
+package com.example.course_management.controller.legacy;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import com.example.course_management.dto.enrollment.EnrollCourseRequest;
 import com.example.course_management.dto.enrollment.EnrollmentDetail;
 import com.example.course_management.model.Enrollment;
 import com.example.course_management.response.ApiResponse;
-import com.example.course_management.service.IEnrollmentService;
+import com.example.course_management.service.legacy.IEnrollmentService;
 
 
-@RestController
-@RequestMapping("api/enrollments")
+// @RestController
+// @RequestMapping("api/enrollments")
 public class EnrollmentController {
 
     private final IEnrollmentService enrollmentService;

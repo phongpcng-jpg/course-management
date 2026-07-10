@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.model.Course;
 
 
-@Repository
+// @Repository
+// @Profile("old")
 public class CourseRepository {
 
     private final List<Course> courses = new ArrayList<>();

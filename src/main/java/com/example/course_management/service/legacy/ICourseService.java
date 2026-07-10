@@ -1,8 +1,8 @@
-package com.example.course_management.service;
+package com.example.course_management.service.legacy;
 
 import java.util.List;
 
-import com.example.course_management.entity.Course;
+import com.example.course_management.model.Course;
 
 public interface ICourseService {
 
