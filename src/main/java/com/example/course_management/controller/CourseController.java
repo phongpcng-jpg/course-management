@@ -1,7 +1,6 @@
 package com.example.course_management.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
+import com.example.course_management.dto.course.CourseResponseV2;
 import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.response.PageResponse;
@@ -50,7 +50,7 @@ public class CourseController {
 //     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageResponse<CourseResponse>>> getPagedCourses(
+    public ResponseEntity<ApiResponse<PageResponse<CourseResponseV2>>> getPagedCourses(
 
             @RequestParam(defaultValue = "0")
             int page,

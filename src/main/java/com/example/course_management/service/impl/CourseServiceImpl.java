@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
+import com.example.course_management.dto.course.CourseResponseV2;
 import com.example.course_management.entity.Course;
 import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.repository.jpa.CourseRepository;
@@ -149,7 +150,7 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
-    public PageResponse<CourseResponse> getPagedCoursesByStatus(
+    public PageResponse<CourseResponseV2> getPagedCoursesByStatus(
             int page,
             int size,
             String sortBy,
@@ -175,19 +176,10 @@ public class CourseServiceImpl implements ICourseService{
                 Sort.by(direction, sortBy)
         );
 
-        Page<Course> coursePage =
-                courseRepository.findAllByStatus(status, pageable);
+        Page<CourseResponseV2> responsePage =
+                courseRepository.findProjectedByStatus(status, pageable);
 
-        Page<CourseResponse> responsePage =
-                coursePage.map(course -> CourseResponse.builder()
-                    .id(course.getId())
-                    .title(course.getTitle())
-                    .status(course.getStatus())
-                    .instructorId(course.getInstructor().getId())
-                    .build()
-                );
-
-        return PageResponse.<CourseResponse>builder()
+        return PageResponse.<CourseResponseV2>builder()
                 .items(responsePage.getContent())
                 .page(responsePage.getNumber())
                 .size(responsePage.getSize())
