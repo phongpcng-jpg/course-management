@@ -3,13 +3,17 @@ package com.example.course_management.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
 import com.example.course_management.entity.Course;
-import com.example.course_management.repository.jpa.InstructorRepository;
 import com.example.course_management.repository.jpa.CourseRepository;
+import com.example.course_management.repository.jpa.InstructorRepository;
 import com.example.course_management.service.ICourseService;
 
 
@@ -140,6 +144,44 @@ public class CourseServiceImpl implements ICourseService{
             );
         }
 
+    }
+
+    @Override
+    public Page<CourseResponse> getPagedCourses(
+            int page,
+            int size,
+            String sortBy,
+            Sort.Direction direction
+    ) {
+
+        // Safety Check
+        if (page < 0) {
+            page = 0;
+        }
+
+        if (size <= 0) {
+            size = 10;
+        }
+
+        if (sortBy == null || sortBy.isBlank()) {
+            sortBy = "id";
+        }
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(direction, sortBy)
+        );
+
+        Page<Course> coursePage = courseRepository.findAll(pageable);
+
+        return coursePage.map(course -> CourseResponse.builder()
+                    .id(course.getId())
+                    .title(course.getTitle())
+                    .status(course.getStatus())
+                    .instructorId(course.getInstructor().getId())
+                    .build()
+                );
     }
 
 }

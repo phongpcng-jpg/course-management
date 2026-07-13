@@ -1,8 +1,8 @@
 package com.example.course_management.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.course.CourseRequest;
@@ -31,19 +32,47 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+//     @GetMapping
+//     public ResponseEntity<ApiResponse<List<CourseResponse>>> getAllCourse() {
+
+//         List<CourseResponse> courseResponses = courseService.getAllCourses();
+
+//         ApiResponse<List<CourseResponse>> response = new ApiResponse<>(
+//                 true,
+//                 "Get all courses successfully.",
+//                 courseResponses
+//         );
+
+//         return ResponseEntity.ok(response);
+
+//     }
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CourseResponse>>> getAllCourse() {
+    public ResponseEntity<ApiResponse<Page<CourseResponse>>> getPagedCourses(
 
-        List<CourseResponse> courseResponses = courseService.getAllCourses();
+            @RequestParam(defaultValue = "0")
+            int page,
 
-        ApiResponse<List<CourseResponse>> response = new ApiResponse<>(
-                true,
-                "Get all courses successfully.",
-                courseResponses
+            @RequestParam(defaultValue = "10")
+            int size,
+
+            @RequestParam(required = false)
+            String sortBy,
+
+            @RequestParam(defaultValue = "DESC")
+            Sort.Direction direction
+    ) {
+
+        Page<CourseResponse> response = courseService.getPagedCourses(
+            page,
+            size,
+            sortBy,
+            direction
         );
 
-        return ResponseEntity.ok(response);
-
+        return ResponseEntity.ok(
+            ApiResponse.success(response)
+        );
     }
 
     @GetMapping("/{id}")
