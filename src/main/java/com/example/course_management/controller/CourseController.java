@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
 import com.example.course_management.response.ApiResponse;
+import com.example.course_management.response.PageResponse;
 import com.example.course_management.service.ICourseService;
 
 
@@ -48,7 +49,7 @@ public class CourseController {
 //     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<CourseResponse>>> getPagedCourses(
+    public ResponseEntity<ApiResponse<PageResponse<CourseResponse>>> getPagedCourses(
 
             @RequestParam(defaultValue = "0")
             int page,
@@ -63,16 +64,17 @@ public class CourseController {
             Sort.Direction direction
     ) {
 
-        Page<CourseResponse> response = courseService.getPagedCourses(
-            page,
-            size,
-            sortBy,
-            direction
+        return ResponseEntity.ok(
+            ApiResponse.success(
+                courseService.getPagedCourses(
+                        page,
+                        size,
+                        sortBy,
+                        direction
+                )
+            )
         );
 
-        return ResponseEntity.ok(
-            ApiResponse.success(response)
-        );
     }
 
     @GetMapping("/{id}")
