@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
 import com.example.course_management.entity.Course;
+import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.repository.jpa.CourseRepository;
 import com.example.course_management.repository.jpa.InstructorRepository;
 import com.example.course_management.response.PageResponse;
@@ -148,11 +149,12 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
-    public PageResponse<CourseResponse> getPagedCourses(
+    public PageResponse<CourseResponse> getPagedCoursesByStatus(
             int page,
             int size,
             String sortBy,
-            Sort.Direction direction
+            Sort.Direction direction,
+            CourseStatus status
     ) {
 
         if (page < 0) {
@@ -173,7 +175,8 @@ public class CourseServiceImpl implements ICourseService{
                 Sort.by(direction, sortBy)
         );
 
-        Page<Course> coursePage = courseRepository.findAll(pageable);
+        Page<Course> coursePage =
+                courseRepository.findAllByStatus(status, pageable);
 
         Page<CourseResponse> responsePage =
                 coursePage.map(course -> CourseResponse.builder()
