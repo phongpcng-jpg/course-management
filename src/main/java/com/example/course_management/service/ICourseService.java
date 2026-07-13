@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
+import com.example.course_management.response.PageResponse;
 
 public interface ICourseService {
 
@@ -20,7 +21,7 @@ public interface ICourseService {
 
     CourseResponse deleteCourseById(Long id);
 
-    Page<CourseResponse> getPagedCourses(
+    PageResponse<CourseResponse> getPagedCourses(
             int page,
             int size,
             String sortBy,
