@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
+import com.example.course_management.dto.course.CourseResponseV2;
 import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.response.PageResponse;
 
@@ -22,7 +23,7 @@ public interface ICourseService {
 
     CourseResponse deleteCourseById(Long id);
 
-    PageResponse<CourseResponse> getPagedCoursesByStatus(
+    PageResponse<CourseResponseV2> getPagedCoursesByStatus(
             int page,
             int size,
             String sortBy,
