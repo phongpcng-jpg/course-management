@@ -14,6 +14,7 @@ import com.example.course_management.dto.course.CourseResponse;
 import com.example.course_management.entity.Course;
 import com.example.course_management.repository.jpa.CourseRepository;
 import com.example.course_management.repository.jpa.InstructorRepository;
+import com.example.course_management.response.PageResponse;
 import com.example.course_management.service.ICourseService;
 
 
@@ -147,14 +148,13 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
-    public Page<CourseResponse> getPagedCourses(
+    public PageResponse<CourseResponse> getPagedCourses(
             int page,
             int size,
             String sortBy,
             Sort.Direction direction
     ) {
 
-        // Safety Check
         if (page < 0) {
             page = 0;
         }
@@ -175,13 +175,23 @@ public class CourseServiceImpl implements ICourseService{
 
         Page<Course> coursePage = courseRepository.findAll(pageable);
 
-        return coursePage.map(course -> CourseResponse.builder()
+        Page<CourseResponse> responsePage =
+                coursePage.map(course -> CourseResponse.builder()
                     .id(course.getId())
                     .title(course.getTitle())
                     .status(course.getStatus())
                     .instructorId(course.getInstructor().getId())
                     .build()
                 );
+
+        return PageResponse.<CourseResponse>builder()
+                .items(responsePage.getContent())
+                .page(responsePage.getNumber())
+                .size(responsePage.getSize())
+                .totalItems(responsePage.getTotalElements())
+                .totalPages(responsePage.getTotalPages())
+                .isLast(responsePage.isLast())
+                .build();
     }
 
 }
