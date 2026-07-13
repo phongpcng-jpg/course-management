@@ -4,5 +4,5 @@ public enum CourseStatus {
 
     ACTIVE,
 
-    DEACTIVE
+    INACTIVE
 }
