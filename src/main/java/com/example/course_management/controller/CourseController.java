@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.course_management.dto.course.CourseRequest;
 import com.example.course_management.dto.course.CourseResponse;
+import com.example.course_management.enums.CourseStatus;
 import com.example.course_management.response.ApiResponse;
 import com.example.course_management.response.PageResponse;
 import com.example.course_management.service.ICourseService;
@@ -61,16 +62,20 @@ public class CourseController {
             String sortBy,
 
             @RequestParam(defaultValue = "DESC")
-            Sort.Direction direction
+            Sort.Direction direction,
+            
+            @RequestParam(defaultValue = "ACTIVE")
+            CourseStatus status
     ) {
 
         return ResponseEntity.ok(
             ApiResponse.success(
-                courseService.getPagedCourses(
+                courseService.getPagedCoursesByStatus(
                         page,
                         size,
                         sortBy,
-                        direction
+                        direction,
+                        status
                 )
             )
         );
